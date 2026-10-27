@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CSM Center · escenas del video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080C1F; --bg2:#0E1534; --surface:#172840; --surfaceHi:#1B2F4D; --border:rgba(255,255,255,.09);
+    --text:#EEF0FF; --muted:#8892B8; --dim:#4A5580; --violet:#7C4DFF; --cyan:#7DD3FC; --di:#00C9A7; --bgc:#6C3FC5; --ce:#0891B2;
+    --critico:#EF4444; --riesgo:#F97316; --obs:#F59E0B; --sano:#22C55E; --trufan:#00C9A7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,sans-serif}
+  #lienzo{position:absolute;inset:0;overflow:hidden;
+    background:radial-gradient(1200px 700px at 15% 10%,rgba(124,77,255,.22),transparent 60%),
+               radial-gradient(1000px 700px at 90% 90%,rgba(8,145,178,.20),transparent 60%),
+               linear-gradient(160deg,#0B1230,#080C1F 60%);}
+  .escena{position:absolute;inset:0;opacity:0;transform-origin:50% 45%}
+  .marca{position:absolute;top:44px;left:64px;font-size:20px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+  .marca b{color:var(--text)}
+  h2.titulo{position:absolute;top:110px;left:64px;font-size:54px;font-weight:800;letter-spacing:-.02em}
+  h2.titulo span{color:var(--violet)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:999px;font-size:22px;font-weight:600;
+    background:rgba(124,77,255,.14);border:1px solid rgba(124,77,255,.45);color:#D9CCFF}
+  .muted{color:var(--muted)}
+  /* subtitulos */
+  #sub{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);max-width:1500px;text-align:center;
+    font-size:31px;line-height:1.35;font-weight:500;padding:14px 30px;border-radius:16px;background:rgba(5,8,22,.72);
+    border:1px solid rgba(255,255,255,.08);opacity:0}
+  /* titulo */
+  #e-titulo .eyebrow{position:absolute;top:290px;left:160px;font-size:26px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+  #e-titulo h1{position:absolute;top:340px;left:150px;font-size:180px;font-weight:800;letter-spacing:-.04em;line-height:1}
+  #e-titulo h1 span{background:linear-gradient(90deg,#B9A3FF,#7DD3FC);-webkit-background-clip:text;background-clip:text;color:transparent}
+  #e-titulo .bajada{position:absolute;top:560px;left:160px;width:1200px;font-size:40px;line-height:1.3;color:#C9CEEA}
+  #e-titulo .autor{position:absolute;top:220px;left:160px;font-size:28px;font-weight:600;color:var(--muted)}
+  #e-titulo .stack{position:absolute;top:720px;left:160px;display:flex;flex-wrap:wrap;gap:14px;width:1500px}
+  /* problema */
+  #e-problema .centro{position:absolute;left:810px;top:420px;width:300px;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    border-radius:20px;border:2px dashed rgba(239,68,68,.6);background:rgba(239,68,68,.08)}
+  #e-problema .centro b{font-size:34px} #e-problema .centro span{font-size:64px;color:var(--critico);font-weight:800;line-height:1}
+  .fuente{position:absolute;width:390px;padding:24px 28px}
+  .fuente .t{font-size:30px;font-weight:700} .fuente .s{font-size:23px;color:var(--muted);margin-top:6px}
+  .fuente .tag{position:absolute;top:-14px;right:18px;font-size:16px;font-weight:700;padding:4px 12px;border-radius:999px;background:#0E1534;border:1px solid var(--border);color:var(--cyan)}
+  #e-problema .alerta{position:absolute;left:470px;top:820px;width:980px;text-align:center;font-size:34px;font-weight:700;color:#FCA5A5}
+  /* arquitectura */
+  .col{position:absolute;top:250px;width:390px;height:560px;padding:26px}
+  .col .h{font-size:17px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px}
+  .col .n{font-size:32px;font-weight:800;margin-bottom:18px;line-height:1.15}
+  .fila{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+    font-size:22px;margin-bottom:10px}
+  .fila i{width:12px;height:12px;border-radius:50%;flex:none}
+  .ancla{position:absolute;left:520px;top:830px;width:880px;padding:18px 26px;font-size:24px;display:flex;gap:18px;align-items:center}
+  .ancla .ok{color:var(--sano);font-weight:700} .ancla .no{color:var(--critico);font-weight:700;text-decoration:line-through}
+  svg.flechas{position:absolute;inset:0;pointer-events:none}
+  /* health score */
+  #e-healthscore .gauge{position:absolute;left:110px;top:250px;width:520px;height:560px;padding:34px;display:flex;flex-direction:column;align-items:center}
+  .gauge .cuenta{font-size:26px;font-weight:700;align-self:flex-start} .gauge .ej{font-size:18px;color:var(--muted);align-self:flex-start;margin-bottom:10px}
+  .gauge .num{position:absolute;top:255px;left:0;right:0;text-align:center;font-size:110px;font-weight:800;letter-spacing:-.03em}
+  .gauge .estg{position:absolute;top:478px;left:0;right:0;text-align:center;font-size:30px;font-weight:700;color:var(--riesgo)}
+  .comp{position:absolute;left:690px;top:250px;width:640px;padding:30px 34px}
+  .comp .h{font-size:17px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+  .barra{margin-bottom:22px} .barra .l{display:flex;justify-content:space-between;font-size:24px;margin-bottom:8px}
+  .barra .l span{color:var(--muted);font-size:20px}
+  .barra .p{height:14px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden} .barra .p b{display:block;height:100%;border-radius:999px;width:0}
+  .pen{display:inline-flex;margin-top:8px;padding:9px 16px;border-radius:12px;font-size:21px;font-weight:600;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.45);color:#FCA5A5}
+  .regla{position:absolute;left:1390px;width:420px;padding:24px 26px;font-size:25px;line-height:1.3}
+  .regla b{display:block;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin-bottom:8px}
+  .bt{position:absolute;left:690px;top:750px;width:1120px;height:150px;padding:20px 30px;display:flex;align-items:center;gap:30px}
+  .bt .txt{font-size:25px;width:420px;line-height:1.3}
+  /* ia */
+  .paso{position:absolute;top:330px;width:330px;height:330px;padding:26px}
+  .paso .h{font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
+  .paso .c{font-size:25px;line-height:1.35}
+  .paso .cita{font-size:25px;line-height:1.35;font-style:italic;color:#E3E6FF;border-left:4px solid var(--violet);padding-left:14px}
+  .ok{color:var(--sano)}
+  .flecha-ia{position:absolute;top:470px;font-size:56px;color:var(--dim)}
+  /* demo */
+  .app{position:absolute;left:110px;top:150px;width:1700px;height:780px;border-radius:22px;overflow:hidden;background:#0B1230;border:1px solid var(--border)}
+  .app .barra-app{height:64px;display:flex;align-items:center;gap:22px;padding:0 28px;background:rgba(8,12,31,.85);border-bottom:1px solid var(--border);font-size:20px}
+  .app .barra-app b{font-size:22px} .app .pill{padding:6px 14px;border-radius:999px;font-size:17px;font-weight:600;border:1px solid var(--border);color:var(--muted)}
+  .app .pill.on{color:#D9CCFF;border-color:rgba(124,77,255,.5);background:rgba(124,77,255,.15)}
+  .kpis{display:flex;gap:16px;padding:22px 28px 6px}
+  .kpi{flex:1;padding:16px 20px} .kpi .v{font-size:38px;font-weight:800} .kpi .l{font-size:17px;color:var(--muted)}
+  table.cartera{width:calc(100% - 56px);margin:14px 28px;border-collapse:separate;border-spacing:0 8px;font-size:21px}
+  table.cartera th{text-align:left;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:0 16px}
+  table.cartera td{padding:14px 16px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  table.cartera td:first-child{border-left:1px solid var(--border);border-radius:12px 0 0 12px;font-weight:700}
+  table.cartera td:last-child{border-right:1px solid var(--border);border-radius:0 12px 12px 0;color:var(--muted)}
+  .est{display:inline-flex;align-items:center;gap:8px;font-weight:700} .est i{width:12px;height:12px;border-radius:50%}
+  .tarjeta{position:absolute;left:330px;top:120px;width:1260px;height:720px;padding:34px 40px;background:#122039;border:1px solid rgba(255,255,255,.14);
+    border-radius:22px;box-shadow:0 40px 90px rgba(0,0,0,.6)}
+  .tarjeta .cab{display:flex;align-items:center;gap:26px;margin-bottom:22px}
+  .tarjeta .sc{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:800;border:8px solid var(--critico)}
+  .tarjeta .nom{font-size:38px;font-weight:800} .tarjeta .sub{font-size:20px;color:var(--muted)}
+  .tarjeta .cols{display:flex;gap:30px}
+  .tarjeta .por{flex:1.1} .tarjeta .ctx{flex:1}
+  .tarjeta .h{font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin:6px 0 12px}
+  .item{padding:12px 16px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);font-size:21px;margin-bottom:10px;line-height:1.3}
+  .item b{color:var(--text)} .item span{color:var(--muted)}
+  .boton{display:inline-flex;margin-top:10px;padding:12px 22px;border-radius:999px;font-size:20px;font-weight:700;background:rgba(124,77,255,.2);border:1px solid rgba(124,77,255,.6);color:#E2D8FF}
+  .ejemplo{position:absolute;top:44px;right:64px;padding:8px 18px;border-radius:999px;font-size:19px;font-weight:700;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.55);color:#FCD34D}
+  /* cierre */
+  .met{position:absolute;top:300px;width:500px;height:300px;padding:34px;display:flex;flex-direction:column;justify-content:center}
+  .met .v{font-size:60px;white-space:nowrap;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,#B9A3FF,#7DD3FC);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .met .l{font-size:27px;color:#C9CEEA;margin-top:10px;line-height:1.3}
+  #e-cierre .firma{position:absolute;left:160px;top:700px;font-size:34px;font-weight:700}
+  #e-cierre .firma span{display:block;font-size:24px;font-weight:500;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div id="lienzo">
+
+  <!-- 1. TITULO -->
+  <section class="escena" id="e-titulo">
+    <div class="autor" data-s="0">Juan Pablo Mesa · Customer Success</div>
+    <div class="eyebrow" data-s="0" data-d="0.3">Caso de estudio</div>
+    <h1 data-s="0" data-d="0.5"><span>CSM Center</span></h1>
+    <div class="bajada" data-s="1">Una plataforma para que un equipo de Customer Success de cuatro personas gestione cientos de cuentas B2B con datos, no con intuición.</div>
+    <div class="stack" data-s="1" data-d="3.5">
+      <span class="chip">React + TypeScript</span><span class="chip">Postgres (Supabase)</span><span class="chip">n8n</span>
+      <span class="chip">Python</span><span class="chip">ClickHouse · Snowflake</span><span class="chip">Modelos de lenguaje</span>
+    </div>
+  </section>
+
+  <!-- 2. PROBLEMA -->
+  <section class="escena" id="e-problema">
+    <div class="marca"><b>CSM Center</b> · caso de estudio</div>
+    <h2 class="titulo" data-s="0">El problema: <span>cinco fuentes</span>, ninguna vista</h2>
+    <div class="centro" data-s="0" data-d="1"><span>?</span><b>Una cuenta</b></div>
+    <div class="card fuente" style="left:150px;top:300px" data-s="1" data-d="0"><div class="tag">Data warehouse</div><div class="t">Consumo</div><div class="s">Lo que el cliente usa y se le cobra</div></div>
+    <div class="card fuente" style="left:1380px;top:300px" data-s="1" data-d="1.8"><div class="tag">Hojas de Finanzas</div><div class="t">Facturación</div><div class="s">MRR, facturas, pagos y mora</div></div>
+    <div class="card fuente" style="left:150px;top:560px" data-s="1" data-d="3.6"><div class="tag">CRM</div><div class="t">Correos</div><div class="s">Lo que pide y lo que reclama</div></div>
+    <div class="card fuente" style="left:1380px;top:560px" data-s="1" data-d="4.7"><div class="tag">Jira</div><div class="t">Tickets</div><div class="s">Incidentes y escalamientos</div></div>
+    <div class="card fuente" style="left:765px;top:640px" data-s="1" data-d="6"><div class="tag">Grabaciones</div><div class="t">Reuniones</div><div class="s">Transcripciones y compromisos</div></div>
+    <div class="alerta" data-s="2">Horas para armar la foto de una cuenta · los riesgos se veían tarde</div>
+  </section>
+
+  <!-- 3. ARQUITECTURA -->
+  <section class="escena" id="e-arquitectura">
+    <div class="marca"><b>CSM Center</b> · caso de estudio</div>
+    <h2 class="titulo" data-s="0">Cómo funciona <span>por dentro</span></h2>
+    <svg class="flechas" viewBox="0 0 1920 1080">
+      <defs><marker id="pt" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7DD3FC"/></marker></defs>
+      <path class="flujo" data-s="1" data-d="1.2" d="M 486 530 L 556 530" stroke="#7DD3FC" stroke-width="5" fill="none" marker-end="url(#pt)"/>
+      <path class="flujo" data-s="3" data-d="0.3" d="M 956 530 L 1026 530" stroke="#7DD3FC" stroke-width="5" fill="none" marker-end="url(#pt)"/>
+      <path class="flujo" data-s="4" data-d="0.2" d="M 1426 530 L 1496 530" stroke="#7DD3FC" stroke-width="5" fill="none" marker-end="url(#pt)"/>
+    </svg>
+    <div class="card col" style="left:90px" data-s="1">
+      <div class="h">1 · Fuentes</div><div class="n">Cinco sistemas</div>
+      <div class="fila"><i style="background:var(--di)"></i>Consumo facturable</div>
+      <div class="fila"><i style="background:var(--obs)"></i>Finanzas: MRR y cartera</div>
+      <div class="fila"><i style="background:var(--violet)"></i>Correos del CRM</div>
+      <div class="fila"><i style="background:var(--critico)"></i>Tickets de Jira</div>
+      <div class="fila"><i style="background:var(--ce)"></i>Reuniones grabadas</div>
+    </div>
+    <div class="card col" style="left:560px" data-s="1" data-d="1.4">
+      <div class="h">2 · Ingesta</div><div class="n">Proceso diario + flujos</div>
+      <div class="fila"><i style="background:var(--cyan)"></i>Cron diario en Python</div>
+      <div class="fila"><i style="background:var(--cyan)"></i>Flujos de n8n</div>
+      <div class="fila"><i style="background:var(--cyan)"></i>Marcas de agua: solo lo nuevo</div>
+      <div class="fila"><i style="background:var(--cyan)"></i>Latido y alertas si falla</div>
+    </div>
+    <div class="card col" style="left:1030px" data-s="3">
+      <div class="h">3 · Datos</div><div class="n">Postgres (Supabase)</div>
+      <div class="fila"><i style="background:var(--sano)"></i>Permisos por fila (RLS)</div>
+      <div class="fila"><i style="background:var(--sano)"></i>Todo el equipo lee</div>
+      <div class="fila"><i style="background:var(--sano)"></i>Solo el dueño edita</div>
+      <div class="fila"><i style="background:var(--sano)"></i>Historial que solo crece</div>
+    </div>
+    <div class="card col" style="left:1500px;width:340px" data-s="4">
+      <div class="h">4 · App</div><div class="n">React + TypeScript</div>
+      <div class="fila">Health Score</div><div class="fila">Dashboard de cartera</div>
+      <div class="fila">Alertas de consumo</div><div class="fila">Expedientes y reportes</div>
+    </div>
+    <div class="card ancla" data-s="2"><b style="font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet)">Anclaje</b>
+      <span class="ok">dominio</span>·<span class="ok">identificador</span>·<span class="ok">contactos</span><span class="no">solo el nombre</span></div>
+  </section>
+
+  <!-- 4. HEALTH SCORE -->
+  <section class="escena" id="e-healthscore">
+    <div class="marca"><b>CSM Center</b> · caso de estudio</div>
+    <h2 class="titulo" data-s="0">Health Score <span>de 0 a 100</span></h2>
+    <div class="card gauge" data-s="0" data-d="0.6">
+      <div class="cuenta">Cuenta de ejemplo</div><div class="ej">Datos ficticios</div>
+      <svg width="360" height="360" viewBox="0 0 360 360" style="margin-top:4px">
+        <circle cx="180" cy="180" r="150" stroke="rgba(255,255,255,.08)" stroke-width="26" fill="none"/>
+        <circle id="anillo" cx="180" cy="180" r="150" stroke="#F97316" stroke-width="26" fill="none" stroke-linecap="round"
+          stroke-dasharray="942.5" stroke-dashoffset="942.5" transform="rotate(-90 180 180)"/>
+      </svg>
+      <div class="num" id="gnum">0</div><div class="estg">En riesgo</div>
+    </div>
+    <div class="card comp" data-s="1">
+      <div class="h">Componentes medidos</div>
+      <div class="barra"><div class="l">Tendencia de consumo <span>−48% contra su pico</span></div><div class="p"><b data-v="22" style="background:var(--critico)"></b></div></div>
+      <div class="barra"><div class="l">Compromiso mínimo <span>factura sobre el mínimo</span></div><div class="p"><b data-v="100" style="background:var(--sano)"></b></div></div>
+      <div class="barra"><div class="l">Comportamiento de pago <span>paga a tiempo</span></div><div class="p"><b data-v="100" style="background:var(--sano)"></b></div></div>
+      <div class="barra"><div class="l">NPS <span>promedio 6</span></div><div class="p"><b data-v="45" style="background:var(--obs)"></b></div></div>
+      <div class="pen" data-s="1" data-d="4.5">Resta · escalamiento de soporte abierto</div>
+    </div>
+    <div class="card regla" style="top:250px" data-s="2"><b>Regla 1</b>Lo que no se mide no se inventa: se declara y su peso se reparte.</div>
+    <div class="card regla" style="top:470px" data-s="2" data-d="2.2"><b>Regla 2</b>Cada número muestra de dónde salió.</div>
+    <div class="card bt" data-s="3">
+      <div class="txt"><b style="color:var(--violet)">Backtest histórico</b><br>Pesos calibrados con las cuentas que se fueron</div>
+      <svg width="600" height="110" viewBox="0 0 600 110">
+        <g id="histo"></g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 5. IA -->
+  <section class="escena" id="e-ia">
+    <div class="marca"><b>CSM Center</b> · caso de estudio</div>
+    <h2 class="titulo" data-s="0">La IA <span>propone</span>, el código <span>decide</span></h2>
+    <div class="card paso" style="left:90px" data-s="0" data-d="0.3"><div class="h">Correo del cliente</div>
+      <div class="cita">“Estamos evaluando otro proveedor para el próximo trimestre.”</div><div class="c muted" style="margin-top:14px;font-size:19px">Ejemplo ficticio</div></div>
+    <div class="flecha-ia" style="left:438px" data-s="0" data-d="2.5">→</div>
+    <div class="card paso" style="left:500px" data-s="0" data-d="2.8"><div class="h">Modelo de lenguaje</div>
+      <div class="c">Propone una señal:</div><div style="margin-top:14px"><span class="chip" style="background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.5);color:#FCA5A5">Competidor</span></div>
+      <div class="c muted" style="margin-top:16px;font-size:21px">con la cita que la respalda</div></div>
+    <div class="flecha-ia" style="left:848px" data-s="1">→</div>
+    <div class="card paso" style="left:910px" data-s="1" data-d="0.3"><div class="h">Verificación en código</div>
+      <div class="c"><span class="ok">✓</span> La cita existe literal en lo que escribió el cliente</div>
+      <div class="c muted" style="margin-top:14px;font-size:21px">si no aparece, se descarta</div></div>
+    <div class="flecha-ia" style="left:1258px" data-s="2">→</div>
+    <div class="card paso" style="left:1320px;width:500px" data-s="2" data-d="0.3"><div class="h">Segunda lectura independiente</div>
+      <div class="c"><span class="ok">✓</span> Confirmada con el mismo catálogo de señales</div>
+      <div class="c" style="margin-top:18px"><span class="chip" style="background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.5);color:#86EFAC">Señal vigente en la tarjeta</span></div></div>
+  </section>
+
+  <!-- 6. DEMO -->
+  <section class="escena" id="e-demo">
+    <div class="ejemplo" data-s="0">Datos de ejemplo · clientes ficticios</div>
+    <div class="app" data-s="0">
+      <div class="barra-app"><b>CSM Center</b><span class="pill on">Health Score</span><span class="pill">Dashboard</span><span class="pill">Alertas</span><span class="pill">Conoce el cliente</span>
+        <span style="margin-left:auto" class="muted">Mi cartera · 52 cuentas</span></div>
+      <div class="kpis">
+        <div class="card kpi"><div class="v" style="color:var(--critico)">4</div><div class="l">Crítico</div></div>
+        <div class="card kpi"><div class="v" style="color:var(--riesgo)">7</div><div class="l">En riesgo</div></div>
+        <div class="card kpi"><div class="v" style="color:var(--obs)">13</div><div class="l">En observación</div></div>
+        <div class="card kpi"><div class="v" style="color:var(--sano)">21</div><div class="l">Sano</div></div>
+        <div class="card kpi"><div class="v" style="color:var(--trufan)">7</div><div class="l">TruFan</div></div>
+      </div>
+      <table class="cartera">
+        <tr><th>Cuenta</th><th>Estado</th><th>Puntaje</th><th>Por qué</th></tr>
+        <tr><td>Nova Crédito Digital</td><td><span class="est" style="color:var(--critico)"><i style="background:var(--critico)"></i>Crítico</span></td><td>28</td><td>−71% de consumo contra su pico · factura vencida</td></tr>
+        <tr><td>Ruta Sur Logística</td><td><span class="est" style="color:var(--riesgo)"><i style="background:var(--riesgo)"></i>En riesgo</span></td><td>41</td><td>Caída sostenida dos meses seguidos</td></tr>
+        <tr><td>Andes Microseguros</td><td><span class="est" style="color:var(--riesgo)"><i style="background:var(--riesgo)"></i>En riesgo</span></td><td>46</td><td>Escalamiento de soporte abierto</td></tr>
+        <tr><td>Pagos del Pacífico</td><td><span class="est" style="color:var(--obs)"><i style="background:var(--obs)"></i>En observación</span></td><td>58</td><td>Sin NPS: 3 de 4 componentes medidos</td></tr>
+        <tr><td>Clínica Monteverde</td><td><span class="est" style="color:var(--sano)"><i style="background:var(--sano)"></i>Sano</span></td><td>74</td><td>Consumo estable, paga a tiempo</td></tr>
+      </table>
+    </div>
+    <div class="tarjeta" data-s="1" data-d="3.6">
+      <div class="cab"><div class="sc">28</div><div><div class="nom">Nova Crédito Digital</div><div class="sub">Crítico · Tier 1 · cuenta ficticia</div></div></div>
+      <div class="cols">
+        <div class="por"><div class="h">Por qué tiene este puntaje</div>
+          <div class="item"><b>Tendencia 10</b> <span>· −71% contra el pico de mayo</span></div>
+          <div class="item"><b>Mínimo 25</b> <span>· paga el mínimo exacto tres meses</span></div>
+          <div class="item"><b>Pago 60</b> <span>· una factura vencida hace 45 días</span></div>
+          <div class="item"><b>NPS</b> <span>· sin dato: su peso se reparte</span></div>
+        </div>
+        <div class="ctx"><div class="h">Lo que dijo el cliente</div>
+          <div class="item" style="font-style:italic">“Estamos evaluando otro proveedor para el próximo trimestre.”<br><span style="font-style:normal">Correo · 14-oct · señal verificada</span></div>
+          <div class="h" style="margin-top:18px">Contexto</div>
+          <div class="item"><span>Último contacto del cliente:</span> <b>hace 9 días</b></div>
+          <div class="boton">Armar plan de intervención</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CIERRE -->
+  <section class="escena" id="e-cierre">
+    <div class="marca"><b>CSM Center</b> · caso de estudio</div>
+    <h2 class="titulo" data-s="0">Resultado</h2>
+    <div class="card met" style="left:150px" data-s="0" data-d="0.2"><div class="v">60 → 20 min</div><div class="l">el proceso diario, sin cambiar un solo resultado</div></div>
+    <div class="card met" style="left:710px" data-s="0" data-d="1.6"><div class="v">5 → 1</div><div class="l">cinco fuentes en una sola vista por cuenta</div></div>
+    <div class="card met" style="left:1270px" data-s="0" data-d="3.2"><div class="v">Datos → acción</div><div class="l">el equipo dejó de buscar datos y empezó a actuar</div></div>
+    <div class="firma" data-s="1">Construido con Claude Code como copiloto<span>Juan Pablo Mesa · Customer Success</span></div>
+  </section>
+
+  <div id="sub"></div>
+</div>
+
+<script>
+  let L = null;
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+  const suave = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
+  // histograma estilizado (ilustrativo, sin cifras reales)
+  (function () {
+    const g = document.getElementById("histo"); let h = "";
+    const a = [6, 14, 26, 38, 46, 40, 28, 16, 8, 4], b = [2, 4, 8, 14, 24, 36, 46, 44, 32, 18];
+    for (let i = 0; i < 10; i++) {
+      h += `<rect class="hb" data-i="${i}" x="${i * 58 + 6}" y="${100 - a[i] * 2}" width="24" height="${a[i] * 2}" rx="4" fill="#EF4444" opacity=".85"/>`;
+      h += `<rect class="hb" data-i="${i}" x="${i * 58 + 32}" y="${100 - b[i] * 2}" width="24" height="${b[i] * 2}" rx="4" fill="#22C55E" opacity=".85"/>`;
+    }
+    g.innerHTML = h;
+  })();
+  window.cargar = (lt) => { L = lt; };
+  window.render = (t) => {
+    const sub = document.getElementById("sub");
+    let subTxt = "", subOp = 0;
+    L.escenas.forEach((e, ei) => {
+      const el = document.getElementById("e-" + e.id);
+      const fin = e.fin, ini = e.ini;
+      const fIn = ei === 0 ? 1 : suave((t - ini) / 0.5), fOut = ei === L.escenas.length - 1 ? 1 : suave((fin - t) / 0.5);
+      const vis = t >= ini - 0.01 && t <= fin + 0.01;
+      el.style.opacity = vis ? Math.min(fIn, fOut) : 0;
+      el.style.display = vis ? "block" : "none";
+      if (!vis) return;
+      const p = (t - ini) / (fin - ini);
+      el.style.transform = `scale(${1 + 0.025 * p})`;
+      el.querySelectorAll("[data-s]").forEach((n) => {
+        const fr = e.frases[+n.dataset.s]; const at = fr.ini + (+n.dataset.d || 0);
+        const k = suave((t - at) / 0.55);
+        if (n.tagName === "path") { n.style.opacity = k; n.style.strokeDasharray = "14 10"; n.style.strokeDashoffset = -(t * 70) % 240; return; }
+        n.style.opacity = k;
+        n.style.transform = (n.style.transform || "").replace(/translateY\([^)]*\)/, "") + ` translateY(${(1 - k) * 18}px)`;
+      });
+      e.frases.forEach((f) => { if (t >= f.ini - 0.05 && t <= f.fin + 0.35) { subTxt = f.texto; subOp = suave((t - f.ini + 0.05) / 0.2) * suave((f.fin + 0.35 - t) / 0.2); } });
+      if (e.id === "healthscore") {
+        const a0 = e.frases[0].ini + 0.8, k = suave((t - a0) / 1.4), v = 47;
+        document.getElementById("anillo").setAttribute("stroke-dashoffset", 942.5 * (1 - (v / 100) * k));
+        document.getElementById("gnum").textContent = Math.round(v * k);
+        const a1 = e.frases[1].ini;
+        el.querySelectorAll(".barra b").forEach((b, i) => { b.style.width = (+b.dataset.v * suave((t - a1 - 0.6 - i * 0.9) / 1.0)) + "%"; });
+        const a3 = e.frases[3].ini + 0.4;
+        el.querySelectorAll(".hb").forEach((r) => { r.style.opacity = 0.85 * suave((t - a3 - (+r.dataset.i) * 0.12) / 0.4); });
+      }
+    });
+    sub.textContent = subTxt; sub.style.opacity = subOp;
+  };
+</script>
+</body>
+</html>

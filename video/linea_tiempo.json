@@ -1,0 +1,180 @@
+{
+ "total": 117.38,
+ "escenas": [
+  {
+   "id": "titulo",
+   "ini": 0.0,
+   "fin": 13.66,
+   "frases": [
+    {
+     "texto": "Hola, soy Juan Pablo Mesa.",
+     "archivo": "voz/00_00.mp3",
+     "ini": 0.6,
+     "fin": 3.1
+    },
+    {
+     "texto": "Te presento el CSM Center: la plataforma que construí para que un equipo de Customer Success de cuatro personas gestione cientos de cuentas B2B con datos, y no con intuición.",
+     "archivo": "voz/00_01.mp3",
+     "ini": 3.38,
+     "fin": 12.91
+    }
+   ]
+  },
+  {
+   "id": "problema",
+   "ini": 13.66,
+   "fin": 32.5,
+   "frases": [
+    {
+     "texto": "Antes, la información de cada cliente vivía en cinco lugares:",
+     "archivo": "voz/01_00.mp3",
+     "ini": 13.66,
+     "fin": 17.84
+    },
+    {
+     "texto": "el consumo en el data warehouse, la facturación en las hojas de Finanzas, los correos en el CRM, los tickets en Jira y las reuniones en grabaciones.",
+     "archivo": "voz/01_01.mp3",
+     "ini": 18.12,
+     "fin": 27.05
+    },
+    {
+     "texto": "Armar la foto de una cuenta tomaba horas, y los riesgos se veían tarde.",
+     "archivo": "voz/01_02.mp3",
+     "ini": 27.33,
+     "fin": 31.75
+    }
+   ]
+  },
+  {
+   "id": "arquitectura",
+   "ini": 32.5,
+   "fin": 56.84,
+   "frases": [
+    {
+     "texto": "Por dentro tiene cuatro capas.",
+     "archivo": "voz/02_00.mp3",
+     "ini": 32.5,
+     "fin": 34.92
+    },
+    {
+     "texto": "Un proceso diario en Python y flujos de n8n traen todas esas fuentes.",
+     "archivo": "voz/02_01.mp3",
+     "ini": 35.2,
+     "fin": 39.69
+    },
+    {
+     "texto": "Cada pieza se ancla a la cuenta correcta por dominio, identificador y contactos, nunca solo por el nombre.",
+     "archivo": "voz/02_02.mp3",
+     "ini": 39.97,
+     "fin": 46.14
+    },
+    {
+     "texto": "Todo aterriza en Postgres, con permisos por fila: cada CSM ve toda la cartera, pero solo edita lo suyo.",
+     "archivo": "voz/02_03.mp3",
+     "ini": 46.42,
+     "fin": 52.88
+    },
+    {
+     "texto": "Y encima, una aplicación en React.",
+     "archivo": "voz/02_04.mp3",
+     "ini": 53.16,
+     "fin": 56.09
+    }
+   ]
+  },
+  {
+   "id": "healthscore",
+   "ini": 56.84,
+   "fin": 76.77,
+   "frases": [
+    {
+     "texto": "El corazón es un Health Score de cero a cien.",
+     "archivo": "voz/03_00.mp3",
+     "ini": 56.84,
+     "fin": 59.77
+    },
+    {
+     "texto": "Combina la tendencia de consumo, el compromiso mínimo, el pago y el NPS, y resta por mora o escalamientos.",
+     "archivo": "voz/03_01.mp3",
+     "ini": 60.05,
+     "fin": 66.84
+    },
+    {
+     "texto": "Tiene dos reglas: lo que no se mide no se inventa, y cada número muestra de dónde salió.",
+     "archivo": "voz/03_02.mp3",
+     "ini": 67.12,
+     "fin": 72.26
+    },
+    {
+     "texto": "Los pesos los calibré con un backtest sobre cuentas que se fueron.",
+     "archivo": "voz/03_03.mp3",
+     "ini": 72.54,
+     "fin": 76.02
+    }
+   ]
+  },
+  {
+   "id": "ia",
+   "ini": 76.77,
+   "fin": 93.67,
+   "frases": [
+    {
+     "texto": "Los modelos de lenguaje leen cada correo y reunión nueva, y proponen señales: un competidor, una queja, un pedido pendiente.",
+     "archivo": "voz/04_00.mp3",
+     "ini": 76.77,
+     "fin": 84.47
+    },
+    {
+     "texto": "Pero decide el código: la cita tiene que existir literal en lo que dijo el cliente,",
+     "archivo": "voz/04_01.mp3",
+     "ini": 84.75,
+     "fin": 89.57
+    },
+    {
+     "texto": "y una segunda lectura independiente la confirma.",
+     "archivo": "voz/04_02.mp3",
+     "ini": 89.85,
+     "fin": 92.92
+    }
+   ]
+  },
+  {
+   "id": "demo",
+   "ini": 93.67,
+   "fin": 104.44,
+   "frases": [
+    {
+     "texto": "Así se ve, con datos de ejemplo:",
+     "archivo": "voz/05_00.mp3",
+     "ini": 93.67,
+     "fin": 96.43
+    },
+    {
+     "texto": "cada CSM abre su cartera ordenada por riesgo, entra a una cuenta y encuentra el puntaje, el porqué y lo que dijo el cliente.",
+     "archivo": "voz/05_01.mp3",
+     "ini": 96.71,
+     "fin": 103.69
+    }
+   ]
+  },
+  {
+   "id": "cierre",
+   "ini": 104.44,
+   "fin": 117.38,
+   "frases": [
+    {
+     "texto": "El proceso diario pasó de una hora a veinte minutos, y el equipo dejó de buscar datos para dedicarse a actuar.",
+     "archivo": "voz/06_00.mp3",
+     "ini": 104.44,
+     "fin": 110.46
+    },
+    {
+     "texto": "Lo construí con Claude Code como copiloto. Gracias.",
+     "archivo": "voz/06_01.mp3",
+     "ini": 110.74,
+     "fin": 115.23
+    }
+   ]
+  }
+ ]
+}
