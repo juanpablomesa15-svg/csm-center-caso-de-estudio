@@ -9,7 +9,7 @@ try:
 except ImportError:
     FFMPEG = "ffmpeg"
 G = json.load(open(os.path.join(AQUI, "guion.json"), encoding="utf-8"))
-PAUSA_FRASE, PAUSA_ESCENA, INICIO, FINAL = 0.28, 0.75, 0.6, 1.4
+PAUSA_FRASE, PAUSA_ESCENA, INICIO, FINAL = 0.25, 0.6, 0.45, 1.1
 
 def duracion(f):
     r = subprocess.run([FFMPEG, "-hide_banner", "-i", f], capture_output=True, text=True)
@@ -22,8 +22,16 @@ async def main():
         ini, frases = t, []
         for fi, texto in enumerate(e["frases"]):
             f = os.path.join(AQUI, "voz", "%02d_%02d.mp3" % (ei, fi))
-            if not os.path.exists(f):
-                await edge_tts.Communicate(texto, G["voz"], rate=G["rate"]).save(f)
+            for intento in range(8):
+                if os.path.exists(f) and os.path.getsize(f) > 0:
+                    break
+                try:
+                    await edge_tts.Communicate(texto, G["voz"], rate=G["rate"]).save(f)
+                    await asyncio.sleep(1.5)
+                except Exception as err:
+                    if os.path.exists(f): os.remove(f)
+                    print("  reintento", intento + 1, os.path.basename(f), type(err).__name__)
+                    await asyncio.sleep(3 + 3 * intento)
             d = duracion(f)
             frases.append(dict(texto=texto, archivo=os.path.relpath(f, AQUI).replace(os.sep, "/"), ini=round(t, 3), fin=round(t + d, 3)))
             t += d + PAUSA_FRASE

@@ -1,34 +1,62 @@
 {
- "voz": "es-CO-GonzaloNeural",
- "rate": "+6%",
+ "voz": "en-US-AndrewMultilingualNeural",
+ "rate": "+7%",
  "escenas": [
-  {"id": "titulo", "frases": [
-   "Hola, soy Juan Pablo Mesa.",
-   "Te presento el CSM Center: la plataforma que construí para que un equipo de Customer Success de cuatro personas gestione cientos de cuentas B2B con datos, y no con intuición."]},
-  {"id": "problema", "frases": [
-   "Antes, la información de cada cliente vivía en cinco lugares:",
-   "el consumo en el data warehouse, la facturación en las hojas de Finanzas, los correos en el CRM, los tickets en Jira y las reuniones en grabaciones.",
-   "Armar la foto de una cuenta tomaba horas, y los riesgos se veían tarde."]},
-  {"id": "arquitectura", "frases": [
-   "Por dentro tiene cuatro capas.",
-   "Un proceso diario en Python y flujos de n8n traen todas esas fuentes.",
-   "Cada pieza se ancla a la cuenta correcta por dominio, identificador y contactos, nunca solo por el nombre.",
-   "Todo aterriza en Postgres, con permisos por fila: cada CSM ve toda la cartera, pero solo edita lo suyo.",
-   "Y encima, una aplicación en React."]},
-  {"id": "healthscore", "frases": [
-   "El corazón es un Health Score de cero a cien.",
-   "Combina la tendencia de consumo, el compromiso mínimo, el pago y el NPS, y resta por mora o escalamientos.",
-   "Tiene dos reglas: lo que no se mide no se inventa, y cada número muestra de dónde salió.",
-   "Los pesos los calibré con un backtest sobre cuentas que se fueron."]},
-  {"id": "ia", "frases": [
-   "Los modelos de lenguaje leen cada correo y reunión nueva, y proponen señales: un competidor, una queja, un pedido pendiente.",
-   "Pero decide el código: la cita tiene que existir literal en lo que dijo el cliente,",
-   "y una segunda lectura independiente la confirma."]},
-  {"id": "demo", "frases": [
-   "Así se ve, con datos de ejemplo:",
-   "cada CSM abre su cartera ordenada por riesgo, entra a una cuenta y encuentra el puntaje, el porqué y lo que dijo el cliente."]},
-  {"id": "cierre", "frases": [
-   "El proceso diario pasó de una hora a veinte minutos, y el equipo dejó de buscar datos para dedicarse a actuar.",
-   "Lo construí con Claude Code como copiloto. Gracias."]}
+  {
+   "id": "titulo",
+   "frases": [
+    "Hola, soy Juan Pablo Mesa.",
+    "Te presento el CSM Center: la plataforma que construí para que un equipo de Customer Success de cuatro personas gestione cientos de cuentas B2B con datos, y no con intuición."
+   ]
+  },
+  {
+   "id": "problema",
+   "frases": [
+    "Antes, la información de cada cliente vivía en cinco lugares:",
+    "el consumo en el data warehouse, la facturación en las hojas de Finanzas, los correos en el CRM, los tickets en Jira y las reuniones en grabaciones.",
+    "Armar la foto de una cuenta tomaba horas, y los riesgos se veían tarde."
+   ]
+  },
+  {
+   "id": "arquitectura",
+   "frases": [
+    "Por dentro tiene cuatro capas.",
+    "Un proceso diario en Python y flujos de n8n traen todas esas fuentes.",
+    "Cada pieza se ancla a la cuenta correcta por dominio, identificador y contactos, nunca solo por el nombre.",
+    "Todo aterriza en Postgres, con permisos por fila: cada CSM ve toda la cartera, pero solo edita lo suyo.",
+    "Y encima, una aplicación en React."
+   ]
+  },
+  {
+   "id": "demo",
+   "frases": [
+    "Así se ve la aplicación real, con datos de ejemplo.",
+    "Desde el inicio, cada CSM entra a su cartera y ve qué cuentas cambiaron de estado, lo nuevo que dijo cada cliente y cuáles necesitan atención primero."
+   ]
+  },
+  {
+   "id": "healthscore",
+   "frases": [
+    "Al abrir una cuenta está el corazón del sistema: un Health Score de cero a cien.",
+    "Combina la tendencia de consumo, el compromiso mínimo, el pago y el NPS, y resta por mora o escalamientos.",
+    "Tiene dos reglas: lo que no se mide no se inventa, y cada número muestra de dónde salió.",
+    "Los pesos los calibré con un backtest sobre cuentas que se fueron."
+   ]
+  },
+  {
+   "id": "ia",
+   "frases": [
+    "La IA lee cada correo y reunión nueva, y propone señales: un competidor, una queja, un pedido pendiente.",
+    "Pero decide el código: la cita tiene que existir literal en lo que dijo el cliente,",
+    "y una segunda lectura independiente la confirma."
+   ]
+  },
+  {
+   "id": "cierre",
+   "frases": [
+    "El proceso diario pasó de una hora a veinte minutos, y el equipo dejó de buscar datos para dedicarse a actuar.",
+    "Lo construí con Claude Code como copiloto. Gracias."
+   ]
+  }
  ]
 }

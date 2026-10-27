@@ -4,3 +4,4 @@ video/_voz.m4a
 video/render.log
 video/__pycache__/
 node_modules/
+video/muestras_voz/

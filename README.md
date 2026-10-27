@@ -4,7 +4,7 @@
 
 CSM Center es la plataforma interna que construí para que un equipo de Customer Success de cuatro personas gestione cientos de cuentas B2B con datos y no con intuición. Lo hice en mi rol actual, en una empresa SaaS de identidad digital en Latinoamérica, entre abril y octubre de 2026.
 
-> **Sobre este repositorio.** Es un caso de estudio. No contiene código, datos ni configuración de mi empleador: el texto explica el problema, la arquitectura y las decisiones. Las pantallas y el video usan **clientes ficticios** y se armaron desde cero para esta presentación.
+> **Sobre este repositorio.** Es un caso de estudio. No contiene código, datos ni configuración de mi empleador: el texto explica el problema, la arquitectura y las decisiones. Las capturas son de **la aplicación real corriendo en mi equipo sobre una base falsa**: cada consulta a la base la respondió un script con **clientes inventados**, así que en las imágenes no hay un solo dato real.
 
 ▶ **[Video: cómo funciona por dentro (2 min)](video/csm-center-por-dentro.mp4)**
 
@@ -38,9 +38,11 @@ Armar la foto de una cuenta tomaba horas y los riesgos (una caída de consumo, u
 | **Seguimiento y planes de intervención** | Casos automáticos para las cuentas en riesgo y planes con dueño, fecha y resultado. |
 | **Asistente de consulta** | Cada CSM pregunta por un cliente en lenguaje natural y recibe una respuesta con fecha y fuente de cada dato. |
 
-![Demo con clientes ficticios](docs/demo-ficticia.png)
+![Inicio de la aplicación](docs/app-inicio.png)
 
-*Pantalla recreada con clientes ficticios.*
+![Mi cartera en el Health Score](docs/app-cartera.png)
+
+*Capturas de la aplicación real con clientes ficticios.*
 
 ## Arquitectura
 
@@ -82,7 +84,9 @@ flowchart LR
 - **Calibración.** Los pesos salen de un backtest con más de 2.000 observaciones mensuales, incluidas las cuentas que se fueron: medir solo a las que se quedan sesga el modelo.
 - **Lo cualitativo no puntúa, pero se ve.** Lo que dijo el cliente aparece en la tarjeta con su cita, separado del número.
 
-![Health Score](docs/health-score.png)
+![Tarjeta de una cuenta](docs/app-tarjeta.png)
+
+*La tarjeta de una cuenta en la aplicación real (cuenta ficticia).*
 
 ## La IA propone, el código decide
 
@@ -132,9 +136,10 @@ Lo construí con **Claude Code como copiloto**. Yo definí el problema y las reg
 | Ruta | Qué es |
 |---|---|
 | `video/csm-center-por-dentro.mp4` | El video de 2 minutos |
-| `video/escenas.html` | Las escenas del video: una página que se dibuja cuadro a cuadro |
-| `video/guion.json`, `video/voz.py` | El guion y la narración (voz sintética, edge-tts) |
+| `video/escenas.html` | Las escenas del video: una página que se dibuja cuadro a cuadro, con movimiento de cámara sobre las capturas |
+| `video/real/` | Capturas de la aplicación real con clientes ficticios |
+| `video/guion.json`, `video/voz.py` | El guion y la narración (voz sintética multilingüe, edge-tts) |
 | `video/render.cjs` | Render cuadro a cuadro con Playwright y ffmpeg |
 | `docs/` | Imágenes de este README |
 
-Todos los nombres de clientes, cifras de cuentas y citas que aparecen en las pantallas y el video son **ficticios**.
+Todos los nombres de clientes, cifras de cuentas y citas que aparecen en las pantallas y el video son **ficticios**. Antes de publicar, un revisor buscó en el texto visible de cada captura los nombres de todos los clientes reales, sus identificadores, correos y dominios internos, y no encontró ninguno.

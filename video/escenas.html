@@ -108,6 +108,15 @@
   .met .l{font-size:27px;color:#C9CEEA;margin-top:10px;line-height:1.3}
   #e-cierre .firma{position:absolute;left:160px;top:700px;font-size:34px;font-weight:700}
   #e-cierre .firma span{display:block;font-size:24px;font-weight:500;color:var(--muted);margin-top:8px}
+
+  /* capturas reales con camara */
+  .marco{position:absolute;left:110px;top:118px;width:1700px;height:956px;border-radius:22px;overflow:hidden;background:#0B1230;
+    border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 90px rgba(0,0,0,.55)}
+  .marco .vista{position:absolute;inset:0;opacity:0}
+  .marco .vista img{position:absolute;left:0;top:0;width:1700px;height:956.25px;transform-origin:0 0}
+  .rotulo{position:absolute;top:44px;left:110px;display:flex;gap:12px;align-items:center}
+  .rotulo .r{position:absolute;white-space:nowrap;padding:9px 18px;border-radius:999px;font-size:22px;font-weight:700;
+    background:rgba(124,77,255,.18);border:1px solid rgba(124,77,255,.55);color:#E2D8FF;opacity:0}
 </style>
 </head>
 <body>
@@ -181,32 +190,12 @@
 
   <!-- 4. HEALTH SCORE -->
   <section class="escena" id="e-healthscore">
-    <div class="marca"><b>CSM Center</b> · caso de estudio</div>
-    <h2 class="titulo" data-s="0">Health Score <span>de 0 a 100</span></h2>
-    <div class="card gauge" data-s="0" data-d="0.6">
-      <div class="cuenta">Cuenta de ejemplo</div><div class="ej">Datos ficticios</div>
-      <svg width="360" height="360" viewBox="0 0 360 360" style="margin-top:4px">
-        <circle cx="180" cy="180" r="150" stroke="rgba(255,255,255,.08)" stroke-width="26" fill="none"/>
-        <circle id="anillo" cx="180" cy="180" r="150" stroke="#F97316" stroke-width="26" fill="none" stroke-linecap="round"
-          stroke-dasharray="942.5" stroke-dashoffset="942.5" transform="rotate(-90 180 180)"/>
-      </svg>
-      <div class="num" id="gnum">0</div><div class="estg">En riesgo</div>
-    </div>
-    <div class="card comp" data-s="1">
-      <div class="h">Componentes medidos</div>
-      <div class="barra"><div class="l">Tendencia de consumo <span>−48% contra su pico</span></div><div class="p"><b data-v="22" style="background:var(--critico)"></b></div></div>
-      <div class="barra"><div class="l">Compromiso mínimo <span>factura sobre el mínimo</span></div><div class="p"><b data-v="100" style="background:var(--sano)"></b></div></div>
-      <div class="barra"><div class="l">Comportamiento de pago <span>paga a tiempo</span></div><div class="p"><b data-v="100" style="background:var(--sano)"></b></div></div>
-      <div class="barra"><div class="l">NPS <span>promedio 6</span></div><div class="p"><b data-v="45" style="background:var(--obs)"></b></div></div>
-      <div class="pen" data-s="1" data-d="4.5">Resta · escalamiento de soporte abierto</div>
-    </div>
-    <div class="card regla" style="top:250px" data-s="2"><b>Regla 1</b>Lo que no se mide no se inventa: se declara y su peso se reparte.</div>
-    <div class="card regla" style="top:470px" data-s="2" data-d="2.2"><b>Regla 2</b>Cada número muestra de dónde salió.</div>
-    <div class="card bt" data-s="3">
-      <div class="txt"><b style="color:var(--violet)">Backtest histórico</b><br>Pesos calibrados con las cuentas que se fueron</div>
-      <svg width="600" height="110" viewBox="0 0 600 110">
-        <g id="histo"></g>
-      </svg>
+    <div class="ejemplo" data-s="0">App real · cuenta ficticia</div>
+    <div class="rotulo"><span class="r" data-s="0">Health Score de 0 a 100</span><span class="r" data-s="1">El porqué de cada componente</span><span class="r" data-s="2">Lo no medido se declara · cada número con su fuente</span><span class="r" data-s="3">Historia del puntaje</span></div>
+    <div class="marco" data-s="0">
+      <div class="vista" data-s="0" data-cam='[[0,0,[0,0,1,1]],[0,1.4,[0.06,0.0,0.62,0.32]]]'><img src="real/04_tarjeta.png"></div>
+      <div class="vista" data-s="1" data-d="0" data-cam='[[1,0,[0.06,0.0,0.62,0.32]],[1,0.6,[0.06,0.16,0.48,0.74]],[1,4.5,[0.06,0.5,0.48,1.0]],[2,0,[0.06,0.0,0.62,0.3]],[2,2.4,[0.06,0.55,0.5,1.0]]]'><img src="real/04_tarjeta.png"></div>
+      <div class="vista" data-s="3" data-cam='[[3,0,[0.06,0.12,0.92,0.98]],[3,0.8,[0.06,0.22,0.5,0.92]]]'><img src="real/05_tarjeta_abajo.png"></div>
     </div>
   </section>
 
@@ -232,42 +221,12 @@
 
   <!-- 6. DEMO -->
   <section class="escena" id="e-demo">
-    <div class="ejemplo" data-s="0">Datos de ejemplo · clientes ficticios</div>
-    <div class="app" data-s="0">
-      <div class="barra-app"><b>CSM Center</b><span class="pill on">Health Score</span><span class="pill">Dashboard</span><span class="pill">Alertas</span><span class="pill">Conoce el cliente</span>
-        <span style="margin-left:auto" class="muted">Mi cartera · 52 cuentas</span></div>
-      <div class="kpis">
-        <div class="card kpi"><div class="v" style="color:var(--critico)">4</div><div class="l">Crítico</div></div>
-        <div class="card kpi"><div class="v" style="color:var(--riesgo)">7</div><div class="l">En riesgo</div></div>
-        <div class="card kpi"><div class="v" style="color:var(--obs)">13</div><div class="l">En observación</div></div>
-        <div class="card kpi"><div class="v" style="color:var(--sano)">21</div><div class="l">Sano</div></div>
-        <div class="card kpi"><div class="v" style="color:var(--trufan)">7</div><div class="l">TruFan</div></div>
-      </div>
-      <table class="cartera">
-        <tr><th>Cuenta</th><th>Estado</th><th>Puntaje</th><th>Por qué</th></tr>
-        <tr><td>Nova Crédito Digital</td><td><span class="est" style="color:var(--critico)"><i style="background:var(--critico)"></i>Crítico</span></td><td>28</td><td>−71% de consumo contra su pico · factura vencida</td></tr>
-        <tr><td>Ruta Sur Logística</td><td><span class="est" style="color:var(--riesgo)"><i style="background:var(--riesgo)"></i>En riesgo</span></td><td>41</td><td>Caída sostenida dos meses seguidos</td></tr>
-        <tr><td>Andes Microseguros</td><td><span class="est" style="color:var(--riesgo)"><i style="background:var(--riesgo)"></i>En riesgo</span></td><td>46</td><td>Escalamiento de soporte abierto</td></tr>
-        <tr><td>Pagos del Pacífico</td><td><span class="est" style="color:var(--obs)"><i style="background:var(--obs)"></i>En observación</span></td><td>58</td><td>Sin NPS: 3 de 4 componentes medidos</td></tr>
-        <tr><td>Clínica Monteverde</td><td><span class="est" style="color:var(--sano)"><i style="background:var(--sano)"></i>Sano</span></td><td>74</td><td>Consumo estable, paga a tiempo</td></tr>
-      </table>
-    </div>
-    <div class="tarjeta" data-s="1" data-d="3.6">
-      <div class="cab"><div class="sc">28</div><div><div class="nom">Nova Crédito Digital</div><div class="sub">Crítico · Tier 1 · cuenta ficticia</div></div></div>
-      <div class="cols">
-        <div class="por"><div class="h">Por qué tiene este puntaje</div>
-          <div class="item"><b>Tendencia 10</b> <span>· −71% contra el pico de mayo</span></div>
-          <div class="item"><b>Mínimo 25</b> <span>· paga el mínimo exacto tres meses</span></div>
-          <div class="item"><b>Pago 60</b> <span>· una factura vencida hace 45 días</span></div>
-          <div class="item"><b>NPS</b> <span>· sin dato: su peso se reparte</span></div>
-        </div>
-        <div class="ctx"><div class="h">Lo que dijo el cliente</div>
-          <div class="item" style="font-style:italic">“Estamos evaluando otro proveedor para el próximo trimestre.”<br><span style="font-style:normal">Correo · 14-oct · señal verificada</span></div>
-          <div class="h" style="margin-top:18px">Contexto</div>
-          <div class="item"><span>Último contacto del cliente:</span> <b>hace 9 días</b></div>
-          <div class="boton">Armar plan de intervención</div>
-        </div>
-      </div>
+    <div class="ejemplo" data-s="0">App real · datos de ejemplo · clientes ficticios</div>
+    <div class="rotulo"><span class="r" data-s="0">Inicio: los seis módulos</span><span class="r" data-s="1" data-d="1.2">Mi cartera</span><span class="r" data-s="1" data-d="4.2">Cambios de estado y lo que dijo el cliente</span><span class="r" data-s="1" data-d="7.4">Por atención primero</span></div>
+    <div class="marco" data-s="0">
+      <div class="vista" data-s="0" data-cam='[[0,0,[0,0,1,1]],[0,1.6,[0.04,0.38,0.96,0.86]]]'><img src="real/01_inicio.png"></div>
+      <div class="vista" data-s="1" data-d="1.2" data-cam='[[1,1.2,[0,0,1,1]],[1,2.6,[0.05,0.08,0.95,0.78]]]'><img src="real/02_hs_cartera.png"></div>
+      <div class="vista" data-s="1" data-d="4.2" data-cam='[[1,4.2,[0.05,0.0,0.92,0.52]],[1,7.4,[0.04,0.58,0.92,1.0]]]'><img src="real/03_hs_cartera_abajo.png"></div>
     </div>
   </section>
 
@@ -290,7 +249,7 @@
   const suave = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
   // histograma estilizado (ilustrativo, sin cifras reales)
   (function () {
-    const g = document.getElementById("histo"); let h = "";
+    const g = document.getElementById("histo"); if (!g) return; let h = "";
     const a = [6, 14, 26, 38, 46, 40, 28, 16, 8, 4], b = [2, 4, 8, 14, 24, 36, 46, 44, 32, 18];
     for (let i = 0; i < 10; i++) {
       h += `<rect class="hb" data-i="${i}" x="${i * 58 + 6}" y="${100 - a[i] * 2}" width="24" height="${a[i] * 2}" rx="4" fill="#EF4444" opacity=".85"/>`;
@@ -311,24 +270,34 @@
       el.style.display = vis ? "block" : "none";
       if (!vis) return;
       const p = (t - ini) / (fin - ini);
-      el.style.transform = `scale(${1 + 0.025 * p})`;
+      el.style.transform = (e.id === "demo" || e.id === "healthscore") ? "" : `scale(${1 + 0.025 * p})`;
       el.querySelectorAll("[data-s]").forEach((n) => {
         const fr = e.frases[+n.dataset.s]; const at = fr.ini + (+n.dataset.d || 0);
         const k = suave((t - at) / 0.55);
         if (n.tagName === "path") { n.style.opacity = k; n.style.strokeDasharray = "14 10"; n.style.strokeDashoffset = -(t * 70) % 240; return; }
         n.style.opacity = k;
-        n.style.transform = (n.style.transform || "").replace(/translateY\([^)]*\)/, "") + ` translateY(${(1 - k) * 18}px)`;
+        if (!n.classList.contains("vista") && !n.classList.contains("marco") && !n.classList.contains("r")) n.style.transform = (n.style.transform || "").replace(/translateY\([^)]*\)/, "") + ` translateY(${(1 - k) * 18}px)`;
       });
       e.frases.forEach((f) => { if (t >= f.ini - 0.05 && t <= f.fin + 0.35) { subTxt = f.texto; subOp = suave((t - f.ini + 0.05) / 0.2) * suave((f.fin + 0.35 - t) / 0.2); } });
-      if (e.id === "healthscore") {
-        const a0 = e.frases[0].ini + 0.8, k = suave((t - a0) / 1.4), v = 47;
-        document.getElementById("anillo").setAttribute("stroke-dashoffset", 942.5 * (1 - (v / 100) * k));
-        document.getElementById("gnum").textContent = Math.round(v * k);
-        const a1 = e.frases[1].ini;
-        el.querySelectorAll(".barra b").forEach((b, i) => { b.style.width = (+b.dataset.v * suave((t - a1 - 0.6 - i * 0.9) / 1.0)) + "%"; });
-        const a3 = e.frases[3].ini + 0.4;
-        el.querySelectorAll(".hb").forEach((r) => { r.style.opacity = 0.85 * suave((t - a3 - (+r.dataset.i) * 0.12) / 0.4); });
-      }
+      el.querySelectorAll(".rotulo .r").forEach((r, i, all) => {
+        const fr = e.frases[+r.dataset.s]; const at = fr.ini + (+r.dataset.d || 0);
+        const sig = all[i + 1]; const fin = sig ? e.frases[+sig.dataset.s].ini + (+sig.dataset.d || 0) : e.fin;
+        r.style.opacity = suave((t - at) / 0.4) * suave((fin - t) / 0.3); r.style.transform = "";
+      });
+      el.querySelectorAll(".vista").forEach((v) => {
+        const keys = JSON.parse(v.dataset.cam).map(([s, d, r]) => ({ at: e.frases[s].ini + d, r }));
+        let r = keys[0].r;
+        for (let k = 1; k < keys.length; k++) {
+          if (t >= keys[k].at) { r = keys[k].r; continue; }
+          if (t > keys[k - 1].at) { const u = suave((t - keys[k - 1].at) / Math.min(1.3, keys[k].at - keys[k - 1].at)); r = keys[k - 1].r.map((x, j) => x + (keys[k].r[j] - x) * u); }
+          break;
+        }
+        const FW = 1700, FH = 956.25;
+        const sc = Math.min(2.3, Math.min(1 / (r[2] - r[0]), 1 / (r[3] - r[1])));
+        let tx = FW * (0.5 - ((r[0] + r[2]) / 2) * sc), ty = FH * (0.5 - ((r[1] + r[3]) / 2) * sc);
+        tx = Math.min(0, Math.max(FW - FW * sc, tx)); ty = Math.min(0, Math.max(FH - FH * sc, ty));
+        v.querySelector("img").style.transform = `translate(${tx}px, ${ty}px) scale(${sc})`;
+      });
     });
     sub.textContent = subTxt; sub.style.opacity = subOp;
   };
